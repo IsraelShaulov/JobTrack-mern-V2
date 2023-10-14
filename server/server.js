@@ -49,8 +49,8 @@ app.use('/api/v1/auth', authRouter);
 
 // index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
   // res.sendFile(path.resolve(__dirname, './public', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
 });
 
 // page not found(404) middleware
