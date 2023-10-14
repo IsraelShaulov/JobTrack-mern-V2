@@ -44,7 +44,7 @@ A Mern Full-Stack web app that helps candidates to track their job search proces
 - Day.js
 - JWT
 - Helmet
-- Express-Nongo-Sanitize
+- Express-Mongo-Sanitize
 
 
 
