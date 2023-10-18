@@ -4,6 +4,7 @@ import { useDashboardContext } from '../pages/DashboardLayout';
 
 const NavLinks = ({ isBigSidebar }) => {
   const { toggleSidebar, user } = useDashboardContext();
+
   return (
     <div className='nav-links'>
       {links.map((link) => {

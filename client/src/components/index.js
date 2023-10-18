@@ -9,3 +9,4 @@ export { default as SearchContainer } from '../components/SearchContainer';
 export { default as StatItem } from '../components/StatItem';
 export { default as ChartsContainer } from './ChartsContainer';
 export { default as StatsContainer } from './StatsContainer';
+export { default as Loading } from './Loading';
