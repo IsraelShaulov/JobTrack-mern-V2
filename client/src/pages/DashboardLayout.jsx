@@ -11,25 +11,32 @@ import React, { useContext, useState } from 'react';
 import { checkDefaultTheme } from '../App';
 import customFetch from '../utils/customFetch';
 import { toast } from 'react-toastify';
+import { useQuery } from '@tanstack/react-query';
 
-// loader
-export const loader = async () => {
-  try {
+const userQuery = {
+  queryKey: ['user'],
+  queryFn: async () => {
     const response = await customFetch.get('/users/current-user');
-    const data = response.data;
+    return response.data;
+  },
+};
+
+export const loader = (queryClient) => async () => {
+  try {
+    const data = await queryClient.ensureQueryData(userQuery);
     return data;
   } catch (error) {}
   return redirect('/');
 };
-// end of loader
 
 // Context API
 const DashboardContext = React.createContext();
 
-const DashboardLayout = () => {
+const DashboardLayout = ({ queryClient }) => {
   // const data = useLoaderData();
   // console.log(data);
-  const { user } = useLoaderData();
+  // const { user } = useLoaderData();
+  const { user } = useQuery(userQuery).data;
   const navigate = useNavigate();
   const navigation = useNavigation();
   const isPageLoading = navigation.state === 'loading';
@@ -49,6 +56,7 @@ const DashboardLayout = () => {
 
   const logoutUser = async () => {
     await customFetch.get('/auth/logout');
+    queryClient.invalidateQueries();
     navigate('/');
     toast.success('Logging out...');
   };

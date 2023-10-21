@@ -16,13 +16,15 @@ A Mern Full-Stack web app that helps candidates to track their job search proces
 - Cookies
 - Dark Mode
 - Upload Avatars
-- Role Based Login - Admin and Users Panel 
+- Role Based Login - Admin and Users Panel
 
 ## Frontend Stack
+
 - Vite
 - React 18
+- Tanstack/React-Query
+- React Router 6 (loader & actions)
 - Context-API
-- React Router 6
 - Hooks
 - Styled components
 - Recharts
@@ -32,6 +34,7 @@ A Mern Full-Stack web app that helps candidates to track their job search proces
 - React-Toastify
 
 ## Backend Stack
+
 - Express.js
 - Mongoose
 - Morgan
@@ -45,6 +48,3 @@ A Mern Full-Stack web app that helps candidates to track their job search proces
 - JWT
 - Helmet
 - Express-Mongo-Sanitize
-
-
-

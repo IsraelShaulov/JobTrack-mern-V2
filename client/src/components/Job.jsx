@@ -4,7 +4,6 @@ import { Link, Form } from 'react-router-dom';
 import JobInfo from './JobInfo';
 import day from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
-import { DeleteJob } from '../pages';
 day.extend(advancedFormat);
 
 const Job = ({
@@ -38,12 +37,11 @@ const Job = ({
           <Link to={`/dashboard/edit-job/${_id}`} className='btn edit-btn'>
             Edit
           </Link>
-          <DeleteJob jobId={_id} />
-          {/* <Form method='post' action={`/dashboard/delete-job/${_id}`}>
+          <Form method='post' action={`/dashboard/delete-job/${_id}`}>
             <button type='submit' className='btn delete-btn'>
               delete
             </button>
-          </Form> */}
+          </Form>
         </footer>
       </div>
     </Wrapper>

@@ -5,38 +5,55 @@ import { JOB_STATUS, JOB_TYPE } from '../../../server/utils/constants.js';
 import { Form, useNavigation, redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
+import { useQuery } from '@tanstack/react-query';
+
+const singleJobQuery = (id) => {
+  return {
+    queryKey: ['job', id],
+    queryFn: async () => {
+      const response = await customFetch.get(`/jobs/${id}`);
+      const data = response.data;
+      return data;
+    },
+  };
+};
 
 // get request to find the specific job
-export const loader = async ({ params }) => {
-  // console.log(params);
-  try {
-    const response = await customFetch.get(`/jobs/${params.id}`);
-    const data = response.data;
-    return data;
-  } catch (error) {
-    toast.error(error?.response?.data?.msg);
-    return redirect('/dashboard/all-jobs');
-  }
-};
+export const loader =
+  (queryClient) =>
+  async ({ params }) => {
+    // console.log(params);
+    try {
+      await queryClient.ensureQueryData(singleJobQuery(params.id));
+      return params.id;
+    } catch (error) {
+      toast.error(error?.response?.data?.msg);
+      return redirect('/dashboard/all-jobs');
+    }
+  };
 // patch request for edit the specific job
-export const action = async ({ request, params }) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
+export const action =
+  (queryClient) =>
+  async ({ request, params }) => {
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
 
-  try {
-    await customFetch.patch(`/jobs/${params.id}`, data);
-    toast.success('Job edited successfully');
-    return redirect('/dashboard/all-jobs');
-  } catch (error) {
-    toast.error(error.response.data.msg);
-    return error;
-  }
-};
+    try {
+      await customFetch.patch(`/jobs/${params.id}`, data);
+      queryClient.invalidateQueries(['jobs']);
+      toast.success('Job edited successfully');
+      return redirect('/dashboard/all-jobs');
+    } catch (error) {
+      toast.error(error.response.data.msg);
+      return error;
+    }
+  };
 
 const EditJob = () => {
   // const params = useParams();
   // console.log(params);
-  const { job } = useLoaderData();
+  const id = useLoaderData();
+  const { job } = useQuery(singleJobQuery(id)).data;
 
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';

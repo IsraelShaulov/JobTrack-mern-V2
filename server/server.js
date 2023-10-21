@@ -7,6 +7,10 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import cloudinary from 'cloudinary';
 
+// security packages
+import helmet from 'helmet';
+import mongoSanitize from 'express-mongo-sanitize';
+
 // routers
 import jobRouter from './routes/jobRouter.js';
 import authRouter from './routes/authRouter.js';
@@ -38,6 +42,9 @@ app.use(express.static(path.resolve(__dirname, '../client/dist')));
 
 app.use(cookieParser());
 app.use(express.json());
+
+app.use(helmet());
+app.use(mongoSanitize());
 
 app.get('/', (req, res) => {
   res.send('Hello world');
